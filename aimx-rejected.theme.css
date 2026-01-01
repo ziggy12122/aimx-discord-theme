@@ -1,85 +1,61 @@
 /* =========================================================
-   AIMX TERMINAL THEME
+   AIMX DISCORD THEME
    Author: Rejected
-   Variant: Black / Red
-   Install: Vencord Online Theme
+   FIXED FOR CURRENT DISCORD / VENCORD
    ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 
-/* =========================
-   TOGGLES
-   ========================= */
 :root {
-  --matrix-rain: 1;      /* 1 = ON | 0 = OFF */
-  --glitch-flash: 1;     /* 1 = ON | 0 = OFF */
-
-  --terminal-bg: url("https://raw.githubusercontent.com/ziggy12122/aimx-discord-theme/7e390c6ddd0a025f3e4dbded8e3383bfa75803c6/aimx.png");
-  --terminal-text: #e8e8e8;
-  --terminal-dim: #7a7a7a;
-  --terminal-accent: #ff0000;
-  --terminal-border: rgba(255,0,0,0.18);
+  --aimx-bg: url("https://raw.githubusercontent.com/ziggy12122/aimx-discord-theme/7e390c6ddd0a025f3e4dbded8e3383bfa75803c6/aimx.png");
+  --red: #ff0000;
+  --panel: rgba(0,0,0,0.65);
+  --border: rgba(255,0,0,0.2);
+  --text: #e8e8e8;
 }
 
-/* GLOBAL */
+/* =========================
+   GLOBAL FONT
+   ========================= */
 * {
   font-family: "JetBrains Mono", monospace !important;
-  border-radius: 2px !important;
 }
 
 /* =========================
-   BACKGROUND
+   FORCE BACKGROUND (CRITICAL)
    ========================= */
+html,
+body,
+#app-mount,
+.appMount,
 .appMount_fae9dd {
   background:
-    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
-    var(--terminal-bg) center / cover no-repeat fixed !important;
-  animation: bgDrift 80s ease-in-out infinite;
+    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.92)),
+    var(--aimx-bg) center / cover no-repeat fixed !important;
 }
 
-@keyframes bgDrift {
+/* =========================
+   BACKGROUND MOTION
+   ========================= */
+#app-mount {
+  animation: aimxDrift 90s ease-in-out infinite;
+}
+
+@keyframes aimxDrift {
   0% { background-position: center; }
-  50% { background-position: 53% 47%; }
+  50% { background-position: 54% 46%; }
   100% { background-position: center; }
 }
 
 /* =========================
-   MATRIX RAIN (OPTIONAL)
+   CRT OVERLAY (SAFE)
    ========================= */
-.appMount_fae9dd::before {
+#app-mount::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
-  opacity: calc(var(--matrix-rain) * 0.18);
-
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,0,0,0.15),
-      rgba(255,0,0,0.15) 2px,
-      transparent 2px,
-      transparent 6px
-    );
-  animation: matrixScroll 3s linear infinite;
-}
-
-@keyframes matrixScroll {
-  from { background-position-y: 0; }
-  to { background-position-y: 100%; }
-}
-
-/* =========================
-   CRT + VIGNETTE
-   ========================= */
-.appMount_fae9dd::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-
+  z-index: 0;
   background:
     radial-gradient(circle,
       transparent 0%,
@@ -95,26 +71,43 @@
 }
 
 /* =========================
-   PANELS
+   TRANSPARENT PANELS
    ========================= */
-.layer_d4b6c5,
-.container_f79ab4,
-.chat_f75fb0,
-.sidebar_a4d4d9 {
-  background: rgba(0,0,0,0.82) !important;
-  border: 1px solid var(--terminal-border);
+[class*="chat"],
+[class*="sidebar"],
+[class*="content"],
+[class*="container"],
+[class*="scroller"] {
+  background: transparent !important;
+}
+
+/* Panel shells */
+[class*="layer"],
+[class*="base"],
+[class*="app"] {
+  background: transparent !important;
+}
+
+/* =========================
+   ACTUAL PANEL SURFACES
+   ========================= */
+[class*="chat"] > div,
+[class*="sidebar"] > div,
+[class*="content"] > div {
+  background: var(--panel) !important;
+  border: 1px solid var(--border);
   backdrop-filter: blur(6px);
 }
 
 /* =========================
    TEXT
    ========================= */
-.messageContent_f9f2ca {
-  color: var(--terminal-text);
+[class*="messageContent"] {
+  color: var(--text);
   text-shadow: 0 0 6px rgba(255,0,0,0.25);
 }
 
-.username_f9f2ca {
+[class*="username"] {
   color: #fff;
   text-shadow:
     0 0 6px rgba(255,0,0,0.6),
@@ -122,27 +115,13 @@
 }
 
 /* =========================
-   NOTIFICATION GLITCH
-   ========================= */
-.notice-2HEN-u {
-  animation: glitchFlash 0.15s steps(2, end);
-  opacity: calc(var(--glitch-flash));
-}
-
-@keyframes glitchFlash {
-  0% { transform: translateX(-2px); }
-  50% { transform: translateX(2px); }
-  100% { transform: none; }
-}
-
-/* =========================
    INPUT
    ========================= */
-.channelTextArea_f75fb0 {
-  background: rgba(0,0,0,0.95) !important;
-  border: 1px solid var(--terminal-border);
+textarea {
+  caret-color: var(--red);
 }
 
-textarea {
-  caret-color: var(--terminal-accent);
+[class*="textArea"] {
+  background: rgba(0,0,0,0.85) !important;
+  border: 1px solid var(--border);
 }
